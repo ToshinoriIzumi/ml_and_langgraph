@@ -16,7 +16,7 @@ class AnalysisAgent:
     def run(self, prompt: str) -> str:
         initial_state = AnalysisState(prompt=prompt)
         result = self.graph.invoke(initial_state)
-        return result["final_result"]
+        return result
         
     def _build_graph(self) -> CompiledStateGraph:
         workflow = StateGraph(AnalysisState)
@@ -63,7 +63,8 @@ def main():
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
     agent = AnalysisAgent(llm)
     result = agent.run("次のデータセットを使用して、解析を行ってください。データセットのパス: data/iris.csv")
-    print(result)
+    print(f'モデル: {result["analysis_result"].model}')
+    print(f'{result["final_result"]}')
     
 if __name__ == "__main__":
     main()
