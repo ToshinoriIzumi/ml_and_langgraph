@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  ml-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ml_langgraph_app
+    environment:
+      # OpenAI APIキーを環境変数として設定
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      # その他の環境変数
+      - PYTHONPATH=/app/src
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # データディレクトリをマウント
+      - ./data:/app/data
+      # 開発時のコードマウント（オプション）
+      - ./src:/app/src
+    ports:
+      - "8000:8000"
+    tty: true
+    stdin_open: true
+
+volumes:
+  data-volume:
+    driver: local 
